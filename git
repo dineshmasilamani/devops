@@ -1,0 +1,196 @@
+Git final
+    Git tutorial - https://git-scm.com/docs
+    Git ignore file templates - https://github.com/github/gitignore
+
+Note: git refer notes and local vedios
+
+
+
+ GIT
+1.create an github hub account 
+        create an new public/private  dinesh demo repository and copy the url of the repository 
+        
+    2.cloning it to ur local repository by - git clone https://github.com/username/your-repo.git
+     now add an sample test file to the git local repo - echo "testing" > demotext.txt
+                                                         git add demotext.txt
+                                                         git commit -m  demotext.txt (changes added to repos)
+                                                         git push (changes pushed  to remote repos)
+                                                         
+    3. creation of branches - git branch newbranch (by default master )
+    
+            git branch -to see all branch 
+    4.moving to the new branch - git checkout newbranch 
+                                  echo "testing" > demotext.txt
+                                  git add demotext.txt
+                                  git commit -m  demotext.txt (changes added to remote repos)
+                                  git push origin newbranch (changes pushed  to remote repos)
+    5. to merge the contents of newbranch to masterbranch - git checkout master
+                                                            git merge newbranch
+                                                            git push 
+                                                
+                                                
+git tutorial - https://www.atlassian.com/git/tutorials/install-git
+http://www.vogella.com/tutorials/Git/article.html
+    git installation - sudo apt-get install 
+    intial configuration - Git stores configuration options in three separate files, which lets you scope options to individual repositories, users, or the entire system:
+                            1 <repo>/.git/config – Repository-specific settings.
+                            2 ~/.gitconfig – User-specific settings. This is where options set with the --global flag are stored.
+                            3 $(prefix)/etc/gitconfig – System-wide settings.
+                        
+                        example - # Tell Git who you are
+                                  git config --global user.name "John Smith"
+                                  git config --global user.email john@example.com
+                                  
+                                  # Select your favorite text editor
+                                  git config --global core.editor vim
+                                  git local tutorial 
+                                # Add some SVN-like aliases
+                                git config --global alias.st status
+                                git config --global alias.co checkout
+                                git config --global alias.br branch
+                                git config --global alias.up rebase
+                                git config --global alias.ci commit
+setting up the repository                                
+    1.create an new dir and make it as an git repos - git init gitdemo
+            creation of local system as an central repos(normally only the central repos will be bare repo i,e only for storage)
+                    ex - git init --bare <directory>
+    2. local central repos -    ssh <user>@<host>
+                                cd path/above/repo 
+                                git init --bare my-project.git
+    3.    git clone local central repos - git clone ssh://john@example.com/path/to/my-project.git 
+                                        cd my-project
+                                        # Start working on the project
+saving changes                                         
+    Saving changes - git add dir
+            git add -p - Begin an interactive staging session that lets you choose portions of a file to add to the next commit. 
+                         This will present you with a chunk of changes and prompt you for a command. Use y to stage the chunk, 
+                         n to ignore the chunk, s to split it into smaller chunks, e to manually edit the chunk, and q to exit.
+                         
+            git commit dir -(commit change from staging area)
+                                git commit -m "this is my first commit"
+            Git Stash  - git stash temporarily shelves (or stashes) changes you've made to your working copy so you can work on something else, and then come back and re-apply them later on
+                applying stash
+                    $ git stash
+                            Saved working directory and index state WIP on master: 5002d47 our new homepage
+                            HEAD is now at 5002d47 our new homepage
+                        $ git status
+                            On branch master
+                            nothing to commit, working tree clean
+                        Note that the stash is local to your Git repository; stashes are not transferred to the server when you push.
+                Re-applying your stashed changes    
+                    $ git stash apply  or git stash pop:
+                    $ git status
+                        On branch master
+                        Changes to be committed:
+                         new file: style.css
+                        Changes not staged for commit:
+                         modified: index.html
+                Stashing untracked or ignored files
+                    $ git stash -u (untracked)
+                    $ git stash -a (ignored)
+                Managing multiple stashes
+                        $ git stash list
+                        $ git stash save "add style to our site"
+                    By default, git stash pop will re-apply the most recently created stash: stash@{0}
+                            You can choose which stash to re-apply by passing its identifier as the last argument, for example:
+                                $ git stash pop stash@{2}
+                Viewing stash diffs
+                    $ git stash show
+                    $ git stash show -p(Or pass the -p option (or --patch) to view the full diff of a stash:)
+                Partial stashes
+                    $ git stash -p (it will iterate through each changed "hunk" in your working copy and ask whether you wish to stash it:)
+                        You can hit ? for a full list of hunk commands. Commonly useful ones are:
+                            Command    Description
+                            /    search for a hunk by regex
+                            ?    help
+                            n    don't stash this hunk
+                            q    quit (any hunks that have already been selected will be stashed)
+                            s    split this hunk into smaller hunks
+                            y    stash this hunk
+                            There is no explicit "abort" command, but hitting CTRL-C(SIGINT) will abort the stash process.
+                                        
+                Creating a branch from your stash
+                    $ git stash branch add-style stash@{1}
+                Cleaning up your stash
+                    $ git stash drop stash@{1}
+                            Or you can delete all of your stashes with: $ git stash clear
+                            
+                            
+            .gitignore
+                Git sees every file in your working copy as one of three things:
+                    tracked - a file which has been previously staged or committed;
+                    untracked - a file which has not been staged or committed; or
+                    ignored - a file which Git has been explicitly told to ignore.
+                        
+                    Ignored files are usually build artifacts and machine generated files that can be derived from your repository source 
+                    or should otherwise not be committed
+                        Some common examples are:
+                            dependency caches, such as the contents of /node_modules or /packages
+                            compiled code, such as .o, .pyc, and .class files
+                            build output directories, such as /bin, /out, or /target
+                            files generated at runtime, such as .log, .lock, or .tmp
+                            hidden system files, such as .DS_Store or Thumbs.db
+                            personal IDE config files, such as .idea/workspace.xml
+                            
+Inspecting a repository
+            $git status
+            $git log
+                git log -n <limit> - Limit the number of commits by <limit>. For example, git log -n 3 will display only 3 commits.
+                git log --oneline - display in single line
+                git log -p - This shows the full diff of each commit, which is the most detailed view you can have of your project history.
+                git log --author="<pattern>" - Search for commits by a particular author. The <pattern> argument can be a plain string or a regular expression.
+                git log --grep="<pattern>" -
+                git log <since>..<until> - Show only commits that occur between <since> and <until>. Both arguments can be either a commit ID, a branch name, HEAD, 
+                git log <file> only specific commit file
+                
+                Example -  git log --author="John Smith" -p hello.py
+                
+Undoing Changes - 
+        git checkout - The git checkout command serves three distinct functions: checking out files, checking out commits, and checking out branches
+            git checkout master -Return to the master branch
+        git revert    - # Edit some tracked files
+                        # Commit a snapshot
+                        git commit -m "Make some changes that will be undone"
+                        # Revert the commit we just created
+                        git revert HEAD
+        git reset - git reset main.py
+                    git reset --hard HEAD~2 - The git reset HEAD~2 command moves the current branch backward by two commits, effectively removing the two snapshots 
+        git clean - The git clean command removes untracked files from your working directory
+Rewriting history
+            The git commit --amend command is a convenient way to fix up the most recent commit. It lets you combine staged changes with the previous commit instead of committing it as an entirely new snapshot
+                # Edit hello.py and main.py
+                    git add hello.py
+                    git commit
+                    # Realize you forgot to add the changes from main.py
+                    git add main.py
+                    git commit --amend --no-edit
+                        --no-edit flag will allow you to make the amendment to your commit without changing its commit message.
+            git rebase - Rebasing is the process of moving a branch to a new base commit.
+            
+            
+Syncing 
+        git remote
+            git remote -v - List the remote connections you have to other repositories.
+            git remote add <name> <url> - add repo
+            git remote rm <name> remove connections
+            git remote rename <old-name> <new-name>
+                    ex - git remote add john http://dev.example.com/john.git
+        git fetch - The git fetch command imports commits from a remote repository into your local repo.
+                git fetch <remote>
+                git fetch <remote> <branch>
+                git pull
+                git push
+                
+branchig -                 
+    git branch - list branch 
+    git branch <branch> -create new branch 
+    git branch -d <branch> -delete the branch 
+    git branch -B <branch> - force delete the branch 
+    
+git checkout
+    git checkout <existing-branch>
+    git checkout -b <new-branch> - The -b option is a convenience flag that tells Git to run git branch <new-branch> before running git checkout <new-branch>
+    
+git merge
+    git merge <branch>
+    git merge --no-ff <branch> - Merge the specified branch into the current branch, but always generate a merge commit (even if it was a fast-forward merge). This is useful for documenting all merges that occur in your repository.
